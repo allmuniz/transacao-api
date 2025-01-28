@@ -2,6 +2,9 @@ package com.project.transacao_api.controller;
 
 import com.project.transacao_api.business.services.EstatisticasService;
 import com.project.transacao_api.controller.dtos.EstatisticasResponsetDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +20,12 @@ public class EstatisticaController {
     private final EstatisticasService estatisticasService;
 
     @GetMapping
+    @Operation(description = "Endpoint responsavel por buscar estatisticas das transações")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "busca efetuada com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Erro na busca de estatisticas"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     public ResponseEntity<EstatisticasResponsetDto> buscarEstatisticas(
             @RequestParam(value = "intervaloBusca", required = false, defaultValue = "60") Integer intervaloBusca) {
         return ResponseEntity.ok(estatisticasService.calcularEstatisticas(intervaloBusca));
