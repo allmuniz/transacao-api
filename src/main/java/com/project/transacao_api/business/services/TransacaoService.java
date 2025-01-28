@@ -19,7 +19,7 @@ public class TransacaoService {
 
     public void adicionarTransacao(TransacaoRequestDto dto) {
 
-        log.info("Iniciado o processamento da transação " + dto);
+        log.info("Iniciado o processamento da transação {}", dto);
 
         if (dto.dataHora().isAfter(OffsetDateTime.now())) {
             log.error("Data e hora maior que a data atual");
@@ -39,10 +39,10 @@ public class TransacaoService {
     }
 
     public List<TransacaoRequestDto> buscarTransacoes(Integer intervaloBusca){
-        log.info("Inicadas buscas as transação do intervalo de " + intervaloBusca + " segundos");
+        log.info("Inicadas buscas as transação do intervalo de {} segundos", intervaloBusca);
         OffsetDateTime dataHoraIntervalo = OffsetDateTime.now().minusSeconds(intervaloBusca);
 
-        log.info("Transação adicionado com sucesso");
+        log.info("Transação buscadas com sucesso");
         return listaTransacoes.stream().filter(t -> t.dataHora().isAfter(dataHoraIntervalo)).toList();
     }
 }
