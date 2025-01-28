@@ -17,10 +17,15 @@ public class EstatisticasService {
     private final TransacaoService transacaoService;
 
     public EstatisticasResponsetDto calcularEstatisticas(Integer intervaloBusca) {
+
+        log.info("Iniciando o calculo das estatisticas de transações pelo período de " + intervaloBusca + " segundos");
+
         List<TransacaoRequestDto> transacoes = transacaoService.buscarTransacoes(intervaloBusca);
 
         DoubleSummaryStatistics estatisticasTransacoes = transacoes.stream()
                 .mapToDouble(TransacaoRequestDto::valor).summaryStatistics();
+
+        log.info("Estatisticas calculadas com sucesso");
 
         return new EstatisticasResponsetDto(estatisticasTransacoes.getCount(), estatisticasTransacoes.getSum(),
                 estatisticasTransacoes.getAverage(), estatisticasTransacoes.getMin(), estatisticasTransacoes.getMax());
